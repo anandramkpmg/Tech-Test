@@ -5,6 +5,6 @@ namespace CoreBanking.Services.Business.Core
 {
     public interface IBalanceChecker
     {
-        Task<bool> CanSaveBalance(decimal amount, AccountType accountType);
+        Task<bool> CanSaveBalance(int creationDay, decimal amount, AccountType accountType);
     }
 }

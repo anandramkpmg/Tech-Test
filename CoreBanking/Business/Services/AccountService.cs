@@ -26,7 +26,7 @@ namespace CoreBanking.Services.Business.Services
         {
             var addedCustomer = _context.Accounts.Add(_mapper.Map<Account>(model));
 
-            if (!await _balanceChecker.CanSaveBalance(model.Balance, model.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
+            if (!await _balanceChecker.CanSaveBalance(DateTime.Now.Day, model.Balance, model.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
 
             await _context.SaveChangesAsync();
 
@@ -61,7 +61,7 @@ namespace CoreBanking.Services.Business.Services
 
             var updatedAccount = _mapper.Map(model, loadedAccount);
 
-            if (!await _balanceChecker.CanSaveBalance(updatedAccount.Balance, updatedAccount.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
+            if (!await _balanceChecker.CanSaveBalance(DateTime.Now.Day, updatedAccount.Balance, updatedAccount.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
 
             await _context.SaveChangesAsync();
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreBanking.Services.Database
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IDbContext
     {
         public DbSet<Account> Accounts { get; set; }
 
