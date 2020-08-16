@@ -1,0 +1,42 @@
+<h2>Create New Accounts</h2>
+<form [formGroup]="createForm" (ngSubmit)="createAccount()">
+  <label for="firstName">First Name</label>
+  <input name="firstName" formControlName="firstName" />
+  <small *ngIf="createForm.controls['firstName'].errors">Please enter a name with at least 3 characters</small>
+
+  <label for="lastName">Last Name</label>
+  <input name="lastName" formControlName="lastName" />
+  <small *ngIf="createForm.controls['lastName'].errors">Please enter a name with at least 3 characters</small>
+
+  <label for="balance">Balance</label>
+  <input type="number" name="balance" formControlName="balance" />
+  <small *ngIf="createForm.controls['balance'].errors">Please enter balance</small> 
+
+  <button type="submit" [disabled]="createForm.invalid">Add Account</button>
+
+</form>
+
+<h2>Accounts</h2>
+
+<app-accountfilter (filterChange)="filterChanged($event)"></app-accountfilter> 
+
+<table spacing="0">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Balance</th>
+      <th>Account Type</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let account of filteredaccounts$ | async">
+      <td>{{ account.firstName }}</td>
+      <td>{{ account.lastName }}</td>
+      <td>{{ account.balance }}</td>
+      <td>{{ account.accountType }}</td>
+      <td>{{ account.address }}</td>
+    </tr>
+  </tbody>
+</table>
