@@ -18,25 +18,28 @@
 
 <h2>Accounts</h2>
 
-<app-accountfilter (filterChange)="filterChanged($event)"></app-accountfilter> 
-
-<table spacing="0">
-  <thead>
-    <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Balance</th>
-      <th>Account Type</th>
-      <th>Address</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let account of filteredaccounts$ | async">
-      <td>{{ account.firstName }}</td>
-      <td>{{ account.lastName }}</td>
-      <td>{{ account.balance }}</td>
-      <td>{{ account.accountType }}</td>
-      <td>{{ account.address }}</td>
-    </tr>
-  </tbody>
-</table>
+<form>
+  <label>Filter on Account Types  </label>
+  <app-accountfilter (filterChange)="filterChanged($event)"></app-accountfilter> 
+  
+  <table spacing="0">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Balance</th>
+        <th>Account Type</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of filteredaccounts$ | async">
+        <td>{{ account.firstName }}</td>
+        <td>{{ account.lastName }}</td>
+        <td>{{ account.balance }}</td>
+        <td>{{ account.accountType }}</td>
+        <td>{{ account.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+</form>

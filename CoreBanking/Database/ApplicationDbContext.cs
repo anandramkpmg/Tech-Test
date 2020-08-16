@@ -1,7 +1,7 @@
-﻿using CoreBanking.Database.Models;
+﻿using CoreBanking.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreBanking.Database
+namespace CoreBanking.Services.Database
 {
     public class ApplicationDbContext : DbContext
     {

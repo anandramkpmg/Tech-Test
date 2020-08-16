@@ -1,11 +1,11 @@
-﻿using CoreBanking.Business.Interface;
-using CoreBanking.Models;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using CoreBanking.Services.Business.Interface;
+using CoreBanking.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace CoreBanking.Controllers
+namespace CoreBanking.Services.Controllers
 {
     [ApiController, Route("[controller]")]
     public class AccountController : ControllerBase

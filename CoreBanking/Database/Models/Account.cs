@@ -1,8 +1,8 @@
-﻿using CoreBanking.Database.Enum;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CoreBanking.Services.Database.Enum;
 
-namespace CoreBanking.Database.Models
+namespace CoreBanking.Services.Database.Models
 {
     public class Account
     {

@@ -1,6 +1,6 @@
-﻿using CoreBanking.Database.Enum;
+﻿using CoreBanking.Services.Database.Enum;
 
-namespace CoreBanking.Business.Core
+namespace CoreBanking.Services.Business.Core
 {
     public interface IExternalApi
     {

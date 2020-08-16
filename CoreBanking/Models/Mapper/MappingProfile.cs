@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CoreBanking.Database.Models;
+using CoreBanking.Services.Database.Models;
 
-namespace CoreBanking.Models.Mapper
+namespace CoreBanking.Services.Models.Mapper
 {
     public class MappingProfile : Profile
     {

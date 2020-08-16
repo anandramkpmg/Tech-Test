@@ -1,19 +1,19 @@
 using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
-using CoreBanking.Database;
+using AutoMapper;
+using CoreBanking.Services.Business.Core;
+using CoreBanking.Services.Business.Interface;
+using CoreBanking.Services.Business.Services;
+using CoreBanking.Services.Database;
+using CoreBanking.Services.Models.Extensions;
+using CoreBanking.Services.Models.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using CoreBanking.Business.Interface;
-using CoreBanking.Business.Services;
-using AutoMapper;
-using CoreBanking.Models.Mapper;
-using CoreBanking.Models.Extensions;
-using CoreBanking.Business.Core;
 
-namespace CoreBanking
+namespace CoreBanking.Services
 {
     public class Startup
     {

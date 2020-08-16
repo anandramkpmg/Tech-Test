@@ -1,4 +1,4 @@
-﻿namespace CoreBanking.Database.Enum
+﻿namespace CoreBanking.Services.Database.Enum
 {
     public enum AccountType
     {

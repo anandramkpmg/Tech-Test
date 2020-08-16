@@ -1,14 +1,14 @@
-﻿using CoreBanking.Business.Interface;
-using CoreBanking.Database;
-using CoreBanking.Models;
-using AutoMapper;
+﻿using System;
 using System.Linq;
-using CoreBanking.Database.Models;
 using System.Threading.Tasks;
-using System;
-using CoreBanking.Business.Core;
+using AutoMapper;
+using CoreBanking.Services.Business.Core;
+using CoreBanking.Services.Business.Interface;
+using CoreBanking.Services.Database;
+using CoreBanking.Services.Database.Models;
+using CoreBanking.Services.Models;
 
-namespace CoreBanking.Business.Services
+namespace CoreBanking.Services.Business.Services
 {
     public class AccountService : IAccountService
     {

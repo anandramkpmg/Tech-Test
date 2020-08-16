@@ -1,7 +1,7 @@
-﻿using CoreBanking.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using CoreBanking.Services.Models;
 
-namespace CoreBanking.Business.Interface
+namespace CoreBanking.Services.Business.Interface
 {
     public interface IAccountService
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CoreBanking.Models
+namespace CoreBanking.Services.Models
 {
     public class ErrorDetails
     {

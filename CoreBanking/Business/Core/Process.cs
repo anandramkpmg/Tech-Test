@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreBanking.Business.Core
+namespace CoreBanking.Services.Business.Core
 {
     public class Process : IProcess
     {

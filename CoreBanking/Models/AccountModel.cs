@@ -1,6 +1,6 @@
-﻿using CoreBanking.Database.Enum;
+﻿using CoreBanking.Services.Database.Enum;
 
-namespace CoreBanking.Models
+namespace CoreBanking.Services.Models
 {
     public class AccountModel
     {

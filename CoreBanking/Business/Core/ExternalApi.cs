@@ -1,12 +1,12 @@
-﻿using CoreBanking.Database.Enum;
+﻿using CoreBanking.Services.Database.Enum;
 
-namespace CoreBanking.Business.Core
+namespace CoreBanking.Services.Business.Core
 {
     public class ExternalApi : IExternalApi
     {
         public bool CheckAccountBalance(decimal amount, AccountType accountType)
         {
-            return (amount > 1000000 && accountType == AccountType.Gold);
+            return (amount > 100000 && accountType == AccountType.Gold);
         }
     }
 }

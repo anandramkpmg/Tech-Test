@@ -1,8 +1,8 @@
-﻿using CoreBanking.Database.Enum;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using CoreBanking.Services.Database.Enum;
 
-namespace CoreBanking.Business.Core
+namespace CoreBanking.Services.Business.Core
 {
     public class BalanceChecker : IBalanceChecker
     {
@@ -21,14 +21,14 @@ namespace CoreBanking.Business.Core
         {
             switch (amount)
             {
-                case { } amt when amt < 10:
+                case { } amt when amount < 10:
                     await Task.Run(() => { _process.Process10(); });
                     return true;
 
-                case { } amt when (amt > 50 && amt <= 100000) && DateTime.Now.Day > 15:
+                case { } amt when (amount > 50 && amount <= 100000) && DateTime.Now.Day > 15:
                     return await Task.Run(_persistence.GetInfo);
 
-                case { } amt when amt > 100000:
+                case { } amt when amount > 100000:
                     return await Task.Run(() => _externalApi.CheckAccountBalance(amount, accountType));
 
                 default:

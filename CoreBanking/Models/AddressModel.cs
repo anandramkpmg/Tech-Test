@@ -1,4 +1,4 @@
-﻿namespace CoreBanking.Models
+﻿namespace CoreBanking.Services.Models
 {
     public class AddressModel
     {
