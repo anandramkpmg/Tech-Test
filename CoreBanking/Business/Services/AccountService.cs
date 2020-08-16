@@ -12,10 +12,10 @@ namespace CoreBanking.Services.Business.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDbContext _context;
         private readonly IBalanceChecker _balanceChecker;
         private readonly IMapper _mapper;
-        public AccountService(ApplicationDbContext context, IBalanceChecker balanceChecker, IMapper mapper)
+        public AccountService(IDbContext context, IBalanceChecker balanceChecker, IMapper mapper)
         {
             this._context = context;
             this._balanceChecker = balanceChecker;

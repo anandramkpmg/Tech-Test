@@ -6,7 +6,7 @@ namespace CoreBanking.Services.Database
     public class ApplicationDbContext : DbContext, IDbContext
     {
         public DbSet<Account> Accounts { get; set; }
-
+       
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }

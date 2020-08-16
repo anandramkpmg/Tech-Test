@@ -41,6 +41,8 @@ namespace CoreBanking.Services
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            services.AddTransient<IDbContext, ApplicationDbContext>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
