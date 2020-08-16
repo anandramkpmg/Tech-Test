@@ -8,5 +8,6 @@ namespace CoreBanking.Business.Interface
         Task<AccountModel[]> GetAccounts();
         Task<AccountModel> CreateAccount(AccountModel model);
         AccountModel[] GetAccounts(AccountModel[] accountModels, AddressModel address);
+        Task<AccountModel> UpdateAccount(AccountModel model);
     }
 }

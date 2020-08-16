@@ -52,5 +52,20 @@ namespace CoreBanking.Business.Services
 
             return accountModels;
         }
+
+        public async Task<AccountModel> UpdateAccount(AccountModel model)
+        {
+            var loadedAccount = _context.Accounts.FirstOrDefault(account => account.Id == model.Id);
+
+            if (loadedAccount == null) { throw new Exception("User does not exist."); }
+
+            var updatedAccount = _mapper.Map(model, loadedAccount);
+
+            if (!await _balanceChecker.CanSaveBalance(updatedAccount.Balance, updatedAccount.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<AccountModel>(updatedAccount);
+        }
     }
 }

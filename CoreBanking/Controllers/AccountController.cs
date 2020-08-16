@@ -33,6 +33,14 @@ namespace CoreBanking.Controllers
             return Created($"account/{model.Id}", account);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update(AccountModel model)
+        {
+            var account = await _accountService.UpdateAccount(model);
+
+            return Created($"account/{model.Id}", account);
+        }
+
         private async Task<AddressModel> GetAddress()
         {
             using (var httpClient = new HttpClient())
@@ -44,7 +52,5 @@ namespace CoreBanking.Controllers
                 }
             }
         }
-
-        //TODO : Update accounts
     }
 }
