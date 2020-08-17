@@ -20,6 +20,7 @@
 
 The system should allow you to create accounts, list and filter them.
 
-Due to time constraints, I couldnt split project in to smaller ones.
+Technology used : .Net core 3.1, Angular latest , RxJs, Mapper, N Unit, EF Core - code first approach, SQL.
 
-Technology used : .Net core 3.1, Angular latest , RxJs, Mapper, N Unit, EF Core - code first approach, SQL
+I could do more tidying up, little bit of refactoring and splitting projects in to smaller one's, but not enough time to cover every thing.
+
