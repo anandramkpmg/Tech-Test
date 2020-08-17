@@ -1,6 +1,8 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CoreBanking.Services.Business.Interface;
+using CoreBanking.Services.Database.Enum;
 using CoreBanking.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -20,20 +22,31 @@ namespace CoreBanking.Services.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("GetAccountTypes")]
+        public IActionResult GetAccountTypes()
+        {
+            var accountTypes =  Enum.GetNames(typeof(AccountType));
+            return Ok(accountTypes);
+        }
+
+        [HttpGet]
+        [Route("GetAccounts")]
+        public async Task<IActionResult> GetAccounts()
         {
             return Ok(_accountService.GetAccounts(await _accountService.GetAccounts(), await GetAddress()));
         }
 
         [HttpPost]
+        [Route("Create")]
         public async Task<IActionResult> Create(AccountModel model)
         {
             var account = await _accountService.CreateAccount(model);
 
-            return Created($"account/{model.Id}", account);
+            return Created($"account/account/{account.Id}", account);
         }
 
         [HttpPut]
+        [Route("Update")]
         public async Task<IActionResult> Update(AccountModel model)
         {
             var account = await _accountService.UpdateAccount(model);

@@ -1,6 +1,6 @@
-<select (change)="accountTypeValueChanged($event)" class="form-control" id="exampleSelect1">
-    <option>All</option>
-    <option>Silver</option>
-    <option>Bronze</option>
-    <option>Gold</option>
+<form [formGroup]="accountTypes">
+  <select formControlName="control" (change)="accountTypeValueChanged($event)" class="form-control" id="exampleSelect1">
+ 
+    <option [value]="type" *ngFor="let type of accountTypes$ | async">{{type}}</option>
   </select>
+ </form>

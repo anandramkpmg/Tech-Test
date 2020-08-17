@@ -9,14 +9,18 @@
   <small *ngIf="createForm.controls['lastName'].errors">Please enter a name with at least 3 characters</small>
 
   <label for="balance">Balance</label>
-  <input type="number" name="balance" formControlName="balance" />
+  <input type="number" name="balance" formControlName="balance" maxlength="9" />
   <small *ngIf="createForm.controls['balance'].errors">Please enter balance</small> 
 
-  <button type="submit" [disabled]="createForm.invalid">Add Account</button>
+  <button type="submit" [disabled]="createForm.invalid">Create Account</button>
 
 </form>
 
 <h2>Accounts</h2>
+
+<div *ngIf="errormessage">
+  <small>{{errormessage}}</small>
+</div>
 
 <form>
   <label>Filter on Account Types  </label>

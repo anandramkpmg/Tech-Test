@@ -12,11 +12,15 @@ export class AccountService {
   constructor(private httpClient: HttpClient) { }
 
   public CreateAccount(account: AccountModel): Observable<AccountModel> {
-    return this.httpClient.post<AccountModel>(`${environment.apiEndpoint}/account`, account);
+    return this.httpClient.post<AccountModel>(`${environment.apiEndpoint}/account/Create`, account);
   }
 
   public GetAccounts(): Observable<AccountModel[]> {
-    return this.httpClient.get<AccountModel[]>(`${environment.apiEndpoint}/account`);
+    return this.httpClient.get<AccountModel[]>(`${environment.apiEndpoint}/account/GetAccounts`);
+  }
+
+  public GetAccountTypes(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${environment.apiEndpoint}/account/GetAccountTypes`);
   }
 
 }

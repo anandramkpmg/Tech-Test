@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable , Subject, BehaviorSubject} from "rxjs";
+import { Component, OnInit} from '@angular/core';
+import { Observable, Subject, BehaviorSubject} from "rxjs";
 import { shareReplay } from "rxjs/operators";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { AccountService } from "../services/account.service"
+import { AccountService } from "../services/account.service";
 import { AccountModel } from '../models/account-model.model';
 import { combineLatest } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-account',
@@ -14,10 +15,10 @@ import { combineLatest } from 'rxjs';
 export class AccountComponent implements OnInit {
 
   filter$: Subject<string>;
-  public createForm: FormGroup;
-  public accounts$: Observable<AccountModel[]>;
+  createForm: FormGroup;
+  accounts$: Observable<AccountModel[]>;
   filteredaccounts$: Observable<AccountModel[]>;
-
+  errormessage: string;
 
   constructor(private readonly formBuilder: FormBuilder,
     private readonly accountService: AccountService) { }
@@ -30,22 +31,27 @@ export class AccountComponent implements OnInit {
     });
 
     this.filter$ = new BehaviorSubject('All');
-
+    this.errormessage = null;
     this.getAllAccounts();
-
-    // this.filteredaccounts$ = this.createFilterCharacters(
-    //   this.filter$,
-    //   this.accounts$
-//);
   }
 
-  createAccount() {
+   createAccount() {    
+    this.errormessage = null;
     if (this.createForm.invalid) {
       alert('Form Invalid');
     } else {
       this.accountService
         .CreateAccount(this.createForm.value)
-        .subscribe(() => this.getAllAccounts());
+        .subscribe(() => this.getAllAccounts(),(err)=>{
+           if(err instanceof HttpErrorResponse && err.status == 500)
+           {
+             this.errormessage = "Server Error : Internal Server Error.";
+           }
+           else
+           {
+            this.errormessage = err.message;
+           }
+        });
     }
   }
 
@@ -54,9 +60,9 @@ export class AccountComponent implements OnInit {
       .GetAccounts()
       .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
-      this.filteredaccounts$ = this.createFilterAccounts(
-        this.filter$,
-        this.accounts$);
+    this.filteredaccounts$ = this.createFilterAccounts(
+      this.filter$,
+      this.accounts$);
   }
 
   filterChanged(value: string) {
@@ -73,7 +79,7 @@ export class AccountComponent implements OnInit {
         if (filter === "All") return account;
         return account.filter(
           (account: AccountModel) =>
-          account.accountType.toLowerCase()
+            account.accountType.toLowerCase()
             === filter.toLowerCase()
         );
       });
