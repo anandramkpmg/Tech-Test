@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CoreBanking.Services.Business.Accounts;
 using CoreBanking.Services.Database.Enum;
 
 namespace CoreBanking.Services.Business.Core
@@ -8,30 +10,52 @@ namespace CoreBanking.Services.Business.Core
         private readonly IProcess _process;
         private readonly IPersistence _persistence;
         private readonly IExternalApi _externalApi;
+        private readonly List<Account> _accounts = new List<Account>();
 
         public BalanceChecker(IProcess process, IPersistence persistence, IExternalApi externalApi)
         {
             _process = process;
             _persistence = persistence;
             _externalApi = externalApi;
+            BuildAccountTypes();
         }
 
-        public async Task<bool> CanSaveBalance(int creationDay, decimal amount, AccountType accountType)
+        private void BuildAccountTypes()
         {
-            switch (amount)
+            _accounts.Add(new Silver(0, 50000));
+            _accounts.Add(new Bronze(50001, 100000));
+            _accounts.Add(new Gold(100000, int.MaxValue));
+        }
+
+        public AccountType GetAccountType(decimal balance)
+        {
+            foreach (var account in _accounts)
             {
-                case { } when amount < 10:
+                if (balance >= account.MinBalance && balance <= account.MaxBalance)
+                {
+                    return account.Type;
+                }
+            }
+
+            return AccountType.NotSupported;
+        }
+
+        public async Task<bool> CanSaveBalance(int creationDay, decimal balance)
+        {
+            switch (balance)
+            {
+                case { } when balance < 10:
                     await Task.Run(() => { _process.Process10(); });
                     return true;
 
-                case { } when (amount >= 10 && amount <= 50):
+                case { } when (balance >= 10 && balance <= 50):
                     return true;
 
-                case { } when (amount > 50 && amount <= 100000) && creationDay > 15:
+                case { } when (balance > 50 && balance <= 100000) && creationDay > 15:
                     return await Task.Run(_persistence.GetInfo);
 
-                case { } when amount > 100000:
-                    return await Task.Run(() => _externalApi.CheckAccountBalance(amount, accountType));
+                case { } when balance > 100000:
+                    return await Task.Run(() => _externalApi.CheckAccountBalance(balance, GetAccountType(balance)));
 
                 default:
                     return false;

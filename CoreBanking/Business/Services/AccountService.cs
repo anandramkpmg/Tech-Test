@@ -26,10 +26,12 @@ namespace CoreBanking.Services.Business.Services
         {
             if(IsUserExists(model)) { throw new Exception("User name already exist."); }
 
+            if (!await _balanceChecker.CanSaveBalance(DateTime.Now.Day, model.Balance)) { throw new Exception("User cannot be saved with this balance."); }
+
+            model.AccountType = _balanceChecker.GetAccountType(model.Balance);
+
             var addedCustomer = _context.Accounts.Add(_mapper.Map<Account>(model));
-
-            if (!await _balanceChecker.CanSaveBalance(DateTime.Now.Day, model.Balance, model.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
-
+        
             await _context.SaveChangesAsync();
 
             return _mapper.Map<AccountModel>(addedCustomer.Entity);
@@ -65,7 +67,9 @@ namespace CoreBanking.Services.Business.Services
 
             var updatedAccount = _mapper.Map(model, loadedAccount);
 
-            if (!await _balanceChecker.CanSaveBalance(DateTime.Now.Day, updatedAccount.Balance, updatedAccount.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
+            if (!await _balanceChecker.CanSaveBalance(DateTime.Now.Day, updatedAccount.Balance)) { throw new Exception("User cannot be saved with this balance."); }
+
+            updatedAccount.AccountType = _balanceChecker.GetAccountType(updatedAccount.Balance);
 
             await _context.SaveChangesAsync();
 

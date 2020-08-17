@@ -26,7 +26,7 @@ namespace CoreBankingTests.BusinessTests
         {
             var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
 
-            Assert.IsTrue(balanceChecker.CanSaveBalance(16, 1, AccountType.Bronze).Result);
+            Assert.IsTrue(balanceChecker.CanSaveBalance(16, 1).Result);
             _processMock.Verify(expression: x=> x.Process10(), Times.Once);
         }
 
@@ -36,7 +36,7 @@ namespace CoreBankingTests.BusinessTests
             var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
             _persistenceMock.Setup(x => x.GetInfo()).Returns(true);
           
-            Assert.IsTrue(balanceChecker.CanSaveBalance(16,51, AccountType.Bronze).Result);
+            Assert.IsTrue(balanceChecker.CanSaveBalance(16,51).Result);
             _persistenceMock.Verify(expression: x => x.GetInfo(), Times.Once);
         }
 
@@ -46,7 +46,7 @@ namespace CoreBankingTests.BusinessTests
             var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
             _persistenceMock.Setup(x => x.GetInfo()).Returns(true);
             
-            Assert.IsFalse(balanceChecker.CanSaveBalance(14, 51, AccountType.Bronze).Result);
+            Assert.IsFalse(balanceChecker.CanSaveBalance(14, 51).Result);
             _persistenceMock.Verify(expression: x => x.GetInfo(), Times.Never);
         }
 
@@ -56,28 +56,56 @@ namespace CoreBankingTests.BusinessTests
             var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
             _persistenceMock.Setup(x => x.GetInfo()).Returns(false);
             
-            Assert.IsFalse(balanceChecker.CanSaveBalance(16, 51, AccountType.Bronze).Result);
+            Assert.IsFalse(balanceChecker.CanSaveBalance(16, 51).Result);
             _persistenceMock.Verify(expression: x => x.GetInfo(), Times.Once);
         }
 
         [Test]
-        public void CanSaveBalance_BalanceGreater100000PersistReturnsFalse_ExternalApiReturnsFalse()
+        public void CanSaveBalance_BalanceGreater100000ExternalApiReturnsFalse_ExternalApiReturnsFalse()
         {
             var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
-            _externalApiMock.Setup(x => x.CheckAccountBalance(100001, AccountType.Bronze)).Returns(false);
+            _externalApiMock.Setup(x => x.CheckAccountBalance(100001, AccountType.Gold)).Returns(false);
 
-            Assert.IsFalse(balanceChecker.CanSaveBalance(16, 100001, AccountType.Bronze).Result);
-            _externalApiMock.Verify(expression: x => x.CheckAccountBalance(100001, AccountType.Bronze), Times.Once);
+            Assert.IsFalse(balanceChecker.CanSaveBalance(16, 100001).Result);
+            _externalApiMock.Verify(expression: x => x.CheckAccountBalance(100001, AccountType.Gold), Times.Once);
         }
 
         [Test]
-        public void CanSaveBalance_BalanceGreater100000PersistReturnsFalse_ExternalApiReturnsTrue()
+        public void CanSaveBalance_BalanceGreater100000ExternalApiReturnsFalse_ExternalApiReturnsTrue()
         {
             var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
             _externalApiMock.Setup(x => x.CheckAccountBalance(100001, AccountType.Gold)).Returns(true);
 
-            Assert.IsTrue(balanceChecker.CanSaveBalance(16, 100001, AccountType.Gold).Result);
+            Assert.IsTrue(balanceChecker.CanSaveBalance(16, 100001).Result);
             _externalApiMock.Verify(expression: x => x.CheckAccountBalance(100001, AccountType.Gold), Times.Once);
+        }
+
+        [Test]
+        public void GetAccountType_1_Silver()
+        {
+            var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
+            Assert.AreEqual(balanceChecker.GetAccountType(1), AccountType.Silver);
+        }
+
+        [Test]
+        public void GetAccountType_50000_Bronze()
+        {
+            var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
+            Assert.AreEqual(balanceChecker.GetAccountType(50000), AccountType.Silver);
+        }
+
+        [Test]
+        public void GetAccountType_50001_Bronze()
+        {
+            var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
+            Assert.AreEqual(balanceChecker.GetAccountType(50001), AccountType.Bronze);
+        }
+
+        [Test]
+        public void GetAccountType_100001_Bronze()
+        {
+            var balanceChecker = new BalanceChecker(_processMock.Object, _persistenceMock.Object, _externalApiMock.Object);
+            Assert.AreEqual(balanceChecker.GetAccountType(100001), AccountType.Gold);
         }
     }
 }
