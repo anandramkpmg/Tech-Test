@@ -18,9 +18,14 @@
 
 # Current Solution
 
-The system should allow you to create accounts, list and filter them.
+System should allow you to create accounts, list and filter them. 
+I tried to cover all technical aspects that was mentioned in the tech test. 
 
 Technology used : .Net core 3.1, Angular latest , RxJs, Mapper, N Unit, EF Core - code first approach, SQL.
 
-I could do more tidying up, little bit of refactoring and splitting projects in to smaller one's, but not enough time to cover every thing.
+I would like to do below mentioned tasks, but leaving it due to time constraints.
+
+Wanted to logically split the server side project in to smaller ones.
+Listing accounts can be sepearted in to a different component - but demonstrated this in reusable accounts filter component.
+I can make ui much prettier than this,but didnt bother too much as this was mentioned in the test as well.
 
