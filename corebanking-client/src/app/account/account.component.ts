@@ -1,5 +1,5 @@
-import { Component, OnInit} from '@angular/core';
-import { Observable, Subject, BehaviorSubject} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { shareReplay } from "rxjs/operators";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AccountService } from "../services/account.service";
@@ -30,27 +30,50 @@ export class AccountComponent implements OnInit {
       balance: this.formBuilder.control("", [Validators.required]),
     });
 
+    this.createForm.valueChanges.subscribe(selectedValue => {
+      console.log('form value changed')
+      console.log(selectedValue)
+
+      this.errormessage = null;
+
+      var accountExists = this.isAccountExists(selectedValue.firstName, selectedValue.lastName);
+
+      if (accountExists) {
+        this.errormessage = "User names already exists";
+      }
+    })
+
     this.filter$ = new BehaviorSubject('All');
     this.errormessage = null;
     this.getAllAccounts();
   }
 
-   createAccount() {    
-    this.errormessage = null;
+  isAccountExists(firstName: string, lastName: string) {
+    var userExists = false;
+    this.accounts$.forEach(element => {
+      var matchingAccount = element.filter(
+        (account: AccountModel) =>
+          account.firstName.toLowerCase() === firstName.toLowerCase() &&
+          account.lastName.toLowerCase() === lastName.toLowerCase()
+      )
+      return userExists = matchingAccount.length > 0;
+    });
+    return userExists;
+  }
+
+  createAccount() {
     if (this.createForm.invalid) {
       alert('Form Invalid');
     } else {
       this.accountService
         .CreateAccount(this.createForm.value)
-        .subscribe(() => this.getAllAccounts(),(err)=>{
-           if(err instanceof HttpErrorResponse && err.status == 500)
-           {
-             this.errormessage = "Server Error : Internal Server Error.";
-           }
-           else
-           {
+        .subscribe(() => this.getAllAccounts(), (err) => {
+          if (err instanceof HttpErrorResponse && err.status == 500) {
+            this.errormessage = "Server Error : Internal Server Error.";
+          }
+          else {
             this.errormessage = err.message;
-           }
+          }
         });
     }
   }

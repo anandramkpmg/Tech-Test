@@ -1,4 +1,4 @@
-<h2>Create New Accounts</h2>
+<h2>Create New Account</h2>
 <form [formGroup]="createForm" (ngSubmit)="createAccount()">
   <label for="firstName">First Name</label>
   <input name="firstName" formControlName="firstName" />
@@ -11,16 +11,15 @@
   <label for="balance">Balance</label>
   <input type="number" name="balance" formControlName="balance" maxlength="9" />
   <small *ngIf="createForm.controls['balance'].errors">Please enter balance</small> 
+  <button type="submit" [disabled]="createForm.invalid || errormessage">Create Account</button>
 
-  <button type="submit" [disabled]="createForm.invalid">Create Account</button>
-
+  <div *ngIf="errormessage">
+    <h3 >{{errormessage}}</h3>
+  </div> 
 </form>
 
 <h2>Accounts</h2>
 
-<div *ngIf="errormessage">
-  <small>{{errormessage}}</small>
-</div>
 
 <form>
   <label>Filter on Account Types  </label>

@@ -24,6 +24,8 @@ namespace CoreBanking.Services.Business.Services
 
         public async Task<AccountModel> CreateAccount(AccountModel model)
         {
+            if(IsUserExists(model)) { throw new Exception("User name already exist."); }
+
             var addedCustomer = _context.Accounts.Add(_mapper.Map<Account>(model));
 
             if (!await _balanceChecker.CanSaveBalance(DateTime.Now.Day, model.Balance, model.AccountType)) { throw new Exception("User cannot be saved with this balance."); }
@@ -55,6 +57,8 @@ namespace CoreBanking.Services.Business.Services
 
         public async Task<AccountModel> UpdateAccount(AccountModel model)
         {
+            if (IsUserExists(model)) { throw new Exception("User name already exist."); }
+
             var loadedAccount = _context.Accounts.FirstOrDefault(account => account.Id == model.Id);
 
             if (loadedAccount == null) { throw new Exception("User does not exist."); }
@@ -66,6 +70,12 @@ namespace CoreBanking.Services.Business.Services
             await _context.SaveChangesAsync();
 
             return _mapper.Map<AccountModel>(updatedAccount);
+        }
+
+        private bool IsUserExists(AccountModel model)
+        {
+            return _context.Accounts.FirstOrDefault(acc =>
+                       acc.FirstName == model.FirstName && acc.LastName == model.LastName) != null;
         }
     }
 }
